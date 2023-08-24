@@ -1,33 +1,35 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { User } from './entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Knowledge } from './entities/knowledge.entity';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
-  private users: User[] = [
-    {
-      id: 1,
-      name: 'Lucas',
-      email: 'mail@mail.com',
-      cpf: '000.000.000-00',
-      celular: '(82) 90000-0000',
-      knowledge: [
-        'Git',
-        'React',
-        'PHP',
-        'NodeJS',
-        'DevOps',
-        'Banco de Dados',
-        'TypeScript',
-      ],
-    },
-  ];
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+
+    @InjectRepository(Knowledge)
+    private readonly knowledgeRepository: Repository<Knowledge>,
+  ) {}
 
   getAll() {
-    return this.users;
+    return this.userRepository.find({
+      relations: ['knowledge'],
+    });
   }
 
   getOne(id: string) {
-    const user = this.users.find((user) => user.id === Number(id));
+    const user = this.userRepository.findOne(id, {
+      relations: ['knowledge'],
+    });
 
     if (!user) {
       throw new HttpException(`User ID ${id} not found`, HttpStatus.NOT_FOUND);
@@ -36,16 +38,35 @@ export class UsersService {
     return user;
   }
 
-  create(createUserDto: any) {
-    this.users.push(createUserDto);
-    return createUserDto;
+  async create(createUserDto: CreateUserDto) {
+    const knowledge = await Promise.all(
+      createUserDto.knowledge.map((name) => this.preloadKnowledgeByName(name)),
+    );
+
+    const course = this.userRepository.create({
+      ...createUserDto,
+      knowledge,
+    });
+    return this.userRepository.save(course);
   }
 
-  remove(id: string) {
-    const indexUser = this.users.findIndex((user) => user.id === Number(id));
+  async remove(id: string) {
+    const course = await this.userRepository.findOne(id);
 
-    if (indexUser >= 0) {
-      this.users.splice(indexUser, 1);
+    if (!course) {
+      throw new NotFoundException(`Course ID ${id} not found`);
     }
+
+    return this.userRepository.remove(course);
+  }
+
+  private async preloadKnowledgeByName(name: string): Promise<Knowledge> {
+    const knowledge = await this.knowledgeRepository.findOne({ name });
+
+    if (knowledge) {
+      return knowledge;
+    }
+
+    return this.knowledgeRepository.create({ name });
   }
 }
