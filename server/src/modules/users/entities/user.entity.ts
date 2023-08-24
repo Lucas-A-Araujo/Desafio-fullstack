@@ -29,4 +29,10 @@ export class User {
     cascade: true,
   })
   knowledge: Knowledge[];
+
+  @Column({ default: false })
+  status: boolean;
+
+  @Column({ type: 'timestamp', nullable: true })
+  dataValidacao: Date;
 }
