@@ -4,6 +4,7 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -43,6 +44,11 @@ export class UsersService {
     const knowledge = await Promise.all(
       createUserDto.knowledge.map((name) => this.preloadKnowledgeByName(name)),
     );
+    const cpfExiste = await this.cpfAlreadyExists(createUserDto.cpf);
+
+    if (cpfExiste) {
+      throw new ConflictException('CPF já cadastrado');
+    }
 
     const course = this.userRepository.create({
       ...createUserDto,
@@ -77,6 +83,13 @@ export class UsersService {
     user.dataValidacao = new Date();
 
     return this.userRepository.save(user);
+  }
+
+  private async cpfAlreadyExists(cpf: string): Promise<boolean> {
+    const existingColaborador = await this.userRepository.findOne({
+      where: { cpf },
+    });
+    return !!existingColaborador;
   }
 
   private async preloadKnowledgeByName(name: string): Promise<Knowledge> {
