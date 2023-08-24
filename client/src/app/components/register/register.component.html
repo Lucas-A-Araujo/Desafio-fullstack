@@ -1,0 +1,38 @@
+<div class="container">
+<form class="form-container" (submit)="onSubmit($event)">
+  <div class="form-field-container">
+    <label for="name">Nome:</label>
+    <input id="name" name="name" type="text" ngModel required>
+  </div>
+  <div class="form-field-container">
+    <label for="email">Email:</label>
+    <input id="email" name="email" type="email" ngModel required>
+  </div>
+  <div class="form-field-container">
+    <label for="cpf">CPF:</label>
+    <input id="cpf" name="cpf" type="text" ngModel required mask="000.000.000-00">
+  </div>
+  <div class="form-field-container">
+    <label for="phone">Telefone:</label>
+    <input id="phone" name="phone" type="text" ngModel mask="(00) 0000-0000">
+  </div>
+  <div>
+    <p class="form-field-label">Selecione até 3 items que você tem conhecimento</p>
+    <div class="course-selection-container">
+      <div
+        class="course-card"
+        *ngFor="let course of courses"
+        [ngStyle]="{
+          'background-color': selectedCourses.includes(course.id) ? '#D548D3' : '#320B31',
+          'border-color': selectedCourses.includes(course.id) ? '#D548D3' : 'white'
+        }"
+        (click)="handleCourseSelection(course.id)"
+      >
+        {{ course.name }}
+      </div>
+    </div>
+    <!-- [disabled]="!(selectedCourses.length >= 3) && !(selectedCourses.length >= 1)" -->
+  </div>
+  <button type="submit">Enviar</button>
+</form>
+</div>
