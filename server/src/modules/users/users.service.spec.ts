@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Knowledge } from './entities/knowledge.entity';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 describe('UsersService', () => {
   let usersService: UsersService;
@@ -64,6 +65,35 @@ describe('UsersService', () => {
 
       const result = await usersService.getAll();
       expect(result).toEqual(users);
+    });
+  });
+
+  describe('getOne', () => {
+    it('should return a user by id', async () => {
+      const user = {
+        id: 1,
+        name: 'User 1',
+        email: 'user1@example.com',
+        cpf: '12345678901231',
+        celular: '987654321',
+        knowledge: [{ id: '1', name: 'Knowledge 1' }],
+      };
+      userRepositoryMock.findOne.mockResolvedValue(user);
+
+      const result = await usersService.getOne('1');
+      expect(result).toEqual(user);
+    });
+
+    it('should throw an error if the user is not found', async () => {
+      userRepositoryMock.findOne.mockResolvedValue(null);
+
+      try {
+        await usersService.getOne('1');
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.status).toEqual(HttpStatus.NOT_FOUND);
+        expect(error.message).toEqual(`User ID 1 not found`);
+      }
     });
   });
 });
