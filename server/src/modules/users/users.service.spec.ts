@@ -169,5 +169,17 @@ describe('UsersService', () => {
       await usersService.remove('1');
       expect(userRepositoryMock.remove).toHaveBeenCalledWith(user);
     });
+
+    it('should throw an error if the user is not found', async () => {
+      userRepositoryMock.findOne.mockResolvedValue(null);
+
+      try {
+        await usersService.remove('1');
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.status).toEqual(HttpStatus.NOT_FOUND);
+        expect(error.message).toEqual(`Course ID 1 not found`);
+      }
+    });
   });
 });
