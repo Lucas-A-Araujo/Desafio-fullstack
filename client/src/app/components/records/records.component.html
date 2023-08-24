@@ -1,1 +1,17 @@
-<p>records works!</p>
+<div>
+  <div *ngFor="let user of users">
+    <div>
+      <p>Name: {{ user.name }}</p>
+      <p>Email: {{ user.email }}</p>
+      <p>CPF: {{ user.cpf }}</p>
+      <p>Celular: {{ user.celular }}</p>
+      <p>Knowledge:</p>
+      <ul>
+        <li *ngFor="let knowledge of user.knowledge">
+          {{ knowledge.name }}
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
