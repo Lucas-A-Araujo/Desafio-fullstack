@@ -152,4 +152,22 @@ describe('UsersService', () => {
       }
     });
   });
+
+  describe('remove', () => {
+    it('should remove a user by id', async () => {
+      const user = {
+        id: 1,
+        name: 'User 1',
+        email: 'user1@example.com',
+        cpf: '12345678901231',
+        celular: '987654321',
+        knowledge: [{ id: '1', name: 'Knowledge 1' }],
+      };
+
+      userRepositoryMock.findOne.mockResolvedValue(user);
+
+      await usersService.remove('1');
+      expect(userRepositoryMock.remove).toHaveBeenCalledWith(user);
+    });
+  });
 });
