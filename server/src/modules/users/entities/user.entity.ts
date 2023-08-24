@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { Knowledge } from './knowledge.entity';
 
-@Entity('courses' /*Nome da tabela */)
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,5 +28,5 @@ export class User {
   @ManyToMany(() => Knowledge, (knowledge) => knowledge.users, {
     cascade: true,
   })
-  knowledge: string[];
+  knowledge: Knowledge[];
 }
