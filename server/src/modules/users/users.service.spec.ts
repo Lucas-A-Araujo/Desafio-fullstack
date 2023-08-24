@@ -4,6 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Knowledge } from './entities/knowledge.entity';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
 
 describe('UsersService', () => {
   let usersService: UsersService;
@@ -94,6 +95,32 @@ describe('UsersService', () => {
         expect(error.status).toEqual(HttpStatus.NOT_FOUND);
         expect(error.message).toEqual(`User ID 1 not found`);
       }
+    });
+  });
+  describe('create', () => {
+    it('should create a new user', async () => {
+      const createUserDto: CreateUserDto = {
+        name: 'User 1',
+        email: 'user1@example.com',
+        cpf: '12345678901231',
+        celular: '987654321',
+        knowledge: ['Knowledge 1'],
+      };
+      const user = {
+        ...createUserDto,
+        id: '1',
+        knowledge: [{ id: '1', name: 'Knowledge 1' }],
+      };
+      userRepositoryMock.findOne.mockResolvedValue(null);
+      userRepositoryMock.create.mockReturnValue(user);
+      userRepositoryMock.save.mockResolvedValue(user);
+      knowledgeRepositoryMock.findOne.mockResolvedValue({
+        id: '1',
+        name: 'Knowledge 1',
+      });
+
+      const result = await usersService.create(createUserDto);
+      expect(result).toEqual(user);
     });
   });
 });
