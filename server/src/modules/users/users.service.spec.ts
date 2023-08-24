@@ -122,5 +122,34 @@ describe('UsersService', () => {
       const result = await usersService.create(createUserDto);
       expect(result).toEqual(user);
     });
+
+    it('should not create a new user with the same cpf', async () => {
+      const createUserDto: CreateUserDto = {
+        name: 'User 1',
+        email: 'user1@example.com',
+        cpf: '12345678901231',
+        celular: '987654321',
+        knowledge: ['Knowledge 1'],
+      };
+      const user = {
+        ...createUserDto,
+        id: '1',
+        knowledge: [{ id: '1', name: 'Knowledge 1' }],
+      };
+      userRepositoryMock.findOne.mockResolvedValue(user);
+      userRepositoryMock.create.mockReturnValue(user);
+      userRepositoryMock.save.mockResolvedValue(user);
+      knowledgeRepositoryMock.findOne.mockResolvedValue({
+        id: '1',
+        name: 'Knowledge 1',
+      });
+      try {
+        await usersService.create(createUserDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.status).toEqual(HttpStatus.CONFLICT);
+        expect(error.message).toEqual(`CPF já cadastrado`);
+      }
+    });
   });
 });
