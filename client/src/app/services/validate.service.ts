@@ -5,11 +5,11 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ValidateService {
-  private apiUrl = 'https://randomuser.me/api/?results=10';
+  private apiUrl = 'http://localhost:3000/users';
 
   constructor(private http: HttpClient) { }
 
-  getUsers() {
-    return this.http.get(this.apiUrl);
+  getUserByName(name: string) {
+    return this.http.get(`${this.apiUrl}/name/${name}`);
   }
 }
