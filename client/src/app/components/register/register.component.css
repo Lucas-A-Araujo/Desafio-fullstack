@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .form-container {
@@ -11,7 +12,7 @@
   flex-direction: column;
   background-color: #320B31;
 
-  width: 50vw;
+  width: 90vw;
   margin: 6px 12px;
   height: 90vh;
 
@@ -33,11 +34,14 @@
 }
 
 .form-field-label{
-  margin-left: 4vw;
+  margin-left: 2vw;
+  padding: 0;
+  position: relative;
+
 }
 
 input {
-  width: 24vw;
+  width: 80vw;
   height: 2vh;
   padding: 12px;
   border: 1px solid rgba(255, 255, 255, 1);
@@ -58,7 +62,7 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 12vw;
+  width: 40vw;
   margin: 6px 12px;
   height: 5vh;
   border: 2px solid;
@@ -87,6 +91,7 @@ button[type="submit"]:focus {
   outline: none;
 }
 
+
 .shake {
   animation: shake 0.5s;
 }
@@ -100,5 +105,44 @@ button[type="submit"]:focus {
   }
   20%, 40%, 60%, 80% {
     transform: translateX(10px);
+  }
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    width: 90vw;
+  }
+
+  .form-field-label {
+    margin-left: 0;
+  }
+
+  input {
+    width: 80vw;
+    font-size: 0.9em;
+  }
+
+  .course-card {
+    width: 80vw;
+  }
+}
+
+@media (min-width: 901px) {
+  .container {
+    flex-direction: row;
+  }
+
+  .form-container {
+    width: 40vw;
+    height: 90vh;
+  }
+
+  input {
+    width: 18vw;
+    font-size: 1em;
+  }
+
+  .course-card {
+    width: 15vw;
   }
 }
