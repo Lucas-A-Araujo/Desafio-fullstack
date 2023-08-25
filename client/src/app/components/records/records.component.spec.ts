@@ -24,7 +24,7 @@ describe('RecordsComponent', () => {
       imports: [FormsModule],
       providers: [
         { provide: RecordsService, useValue: recordsSpy },
-        { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) } // Provide a mock Router
+        { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) }
       ]
     });
 
