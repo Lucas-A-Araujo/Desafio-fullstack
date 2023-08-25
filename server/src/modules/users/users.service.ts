@@ -40,6 +40,24 @@ export class UsersService {
     return user;
   }
 
+  async getUserByName(name: string): Promise<User | null> {
+    const formattedName = name.toLowerCase().replace(/\s+/g, '');
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.knowledge', 'knowledge')
+      .where('REPLACE(LOWER(user.name), :space, :empty) = :formattedName', {
+        space: ' ',
+        empty: '',
+        formattedName,
+      })
+      .getOne();
+    if (!user) {
+      throw new HttpException(`User not found`, HttpStatus.NOT_FOUND);
+    }
+
+    return user || null;
+  }
+
   async create(createUserDto: CreateUserDto) {
     const knowledge = await Promise.all(
       createUserDto.knowledge.map((name) => this.preloadKnowledgeByName(name)),
