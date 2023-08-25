@@ -8,6 +8,7 @@ import { ValidateComponent } from './components/validate/validate.component';
 import { RecordsComponent } from './components/records/records.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxMaskModule } from 'ngx-mask';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { NgxMaskModule } from 'ngx-mask';
     AppRoutingModule,
     HttpClientModule,
     NgxMaskModule.forRoot(),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
