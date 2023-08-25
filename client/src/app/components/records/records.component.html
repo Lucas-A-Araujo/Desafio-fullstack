@@ -1,11 +1,12 @@
-<div>
-  <div *ngFor="let user of users">
+<div class="container">
+  <div class="list-container">
+  <div class="user-card" *ngFor="let user of users"  (click)="onUserCardClick(user)">
     <div>
       <p>Name: {{ user.name }}</p>
       <p>Email: {{ user.email }}</p>
       <p>CPF: {{ user.cpf }}</p>
       <p>Celular: {{ user.celular }}</p>
-      <p>Knowledge:</p>
+      <p>Conhecimentos:</p>
       <ul>
         <li *ngFor="let knowledge of user.knowledge">
           {{ knowledge.name }}
@@ -14,4 +15,5 @@
 
     </div>
   </div>
+</div>
 </div>
