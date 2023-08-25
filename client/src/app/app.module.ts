@@ -7,18 +7,21 @@ import { RegisterComponent } from './components/register/register.component';
 import { ValidateComponent } from './components/validate/validate.component';
 import { RecordsComponent } from './components/records/records.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxMaskModule } from 'ngx-mask';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     ValidateComponent,
-    RecordsComponent
+    RecordsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
