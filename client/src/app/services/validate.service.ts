@@ -13,7 +13,7 @@ export class ValidateService {
     return this.http.get(`${this.apiUrl}/name/${name}`);
   }
 
-  changeUserStatus(id: string) {
-    return this.http.patch(`${this.apiUrl}/${id}/validar`, {});
+  changeUserStatus(id: string, status: boolean) {
+    return this.http.patch(`${this.apiUrl}/${id}/validar`, { status: status });
   }
 }

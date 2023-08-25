@@ -17,31 +17,37 @@ export class ValidateComponent implements OnInit {
     this.route.params.subscribe(params => {
       const userName = params['nomeColaborador'];
       this.validateService.getUserByName(userName).subscribe((data: any) => {
-        console.log('///////////')
         console.log(this.formatCpf(data.cpf))
         data.cpf = this.formatCpf(data.cpf);
         data.celular = this.formatPhoneNumber(data.celular);
-        console.log(data)
-        console.log('///////////')
         this.user = data;
       });
     });
   }
 
-  validateUser(valido: boolean) {
+  validateUser(status: boolean) {
 
-this.validateService.changeUserStatus(this.user.id).subscribe((data: any) => {
-  alert('Usuário validado');
-},
-(error: HttpErrorResponse) => {
-  console.error('error', error)
-  if (error.status === 400) {
-    alert(error.error.message);
-  } else {
-    alert('Erro desconhecido:');
-  }
-}
-);
+    this.validateService.changeUserStatus(this.user.id, status).subscribe((data: any) => {
+      alert(`Status alterado para "${status ? 'Validado' : 'Não Validado' }"`);
+      this.route.params.subscribe(params => {
+        const userName = params['nomeColaborador'];
+        this.validateService.getUserByName(userName).subscribe((data: any) => {
+          console.log(this.formatCpf(data.cpf))
+          data.cpf = this.formatCpf(data.cpf);
+          data.celular = this.formatPhoneNumber(data.celular);
+          this.user = data;
+        });
+      });
+    },
+    (error: HttpErrorResponse) => {
+      console.error('error', error)
+      if (error.status === 400) {
+        alert(error.error.message);
+      } else {
+        alert('Erro desconhecido:');
+      }
+    }
+    );
   }
 
 
