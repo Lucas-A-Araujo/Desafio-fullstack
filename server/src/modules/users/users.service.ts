@@ -55,7 +55,7 @@ export class UsersService {
       throw new HttpException(`User not found`, HttpStatus.NOT_FOUND);
     }
 
-    return user || null;
+    return user;
   }
 
   async create(createUserDto: CreateUserDto) {
