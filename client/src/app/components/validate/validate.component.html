@@ -1,0 +1,20 @@
+<div class="container">
+<div class="user-details" *ngIf="user">
+  <p><strong>Nome:</strong> {{ user.name }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>CPF:</strong> {{ user.cpf }}</p>
+  <p><strong>Celular:</strong> {{ user.celular }}</p>
+  <p><strong>Status:</strong> {{ user.status ? 'Validado' : 'Não Validado' }}</p>
+  <strong>Conhecimentos:</strong>
+  <ul>
+    <li *ngFor="let knowledge of user.knowledge">
+      {{ knowledge.name }}
+    </li>
+  </ul>
+
+  <div class="buttons">
+  <button class="validate-button" (click)="validateUser(true)">Validar</button>
+  <button class="reject-button"(click)="validateUser(false)">Não Validar</button>
+</div>
+</div>
+</div>

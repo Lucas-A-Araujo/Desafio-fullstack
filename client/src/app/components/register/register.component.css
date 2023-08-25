@@ -1,0 +1,148 @@
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #320B31;
+
+  width: 90vw;
+  margin: 6px 12px;
+  height: 90vh;
+
+  border-radius: 50px;
+  cursor: pointer;
+
+  font-size: 1em;
+
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.form-field-container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-top: 1vh;
+  padding: 0;
+  position: relative;
+}
+
+.form-field-label{
+  margin-left: 2vw;
+  padding: 0;
+  position: relative;
+
+}
+
+input {
+  width: 80vw;
+  height: 2vh;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  background: #320B31;
+  border-radius: 5px;
+  outline: none;
+  color: #fff;
+}
+
+.course-selection-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.course-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40vw;
+  margin: 6px 12px;
+  height: 5vh;
+  border: 2px solid;
+  border-radius: 20px;
+  cursor: pointer;
+
+  font-size: 0.85em;
+}
+
+button[type="submit"] {
+  background-color: #D548D3;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover {
+  background-color: #B82CA9;
+}
+
+button[type="submit"]:focus {
+  outline: none;
+}
+
+
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    width: 90vw;
+  }
+
+  .form-field-label {
+    margin-left: 0;
+  }
+
+  input {
+    width: 80vw;
+    font-size: 0.9em;
+  }
+
+  .course-card {
+    width: 80vw;
+  }
+}
+
+@media (min-width: 901px) {
+  .container {
+    flex-direction: row;
+  }
+
+  .form-container {
+    width: 40vw;
+    height: 90vh;
+  }
+
+  input {
+    width: 18vw;
+    font-size: 1em;
+  }
+
+  .course-card {
+    width: 15vw;
+  }
+}

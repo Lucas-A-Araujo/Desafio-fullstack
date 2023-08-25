@@ -14,6 +14,7 @@ describe('UsersService', () => {
     create: jest.fn(),
     save: jest.fn(),
     remove: jest.fn(),
+    createQueryBuilder: jest.fn(),
   };
   const knowledgeRepositoryMock = {
     findOne: jest.fn(),
@@ -97,6 +98,44 @@ describe('UsersService', () => {
       }
     });
   });
+
+  describe('getUserByName', () => {
+    it('should return a user by name', async () => {
+      const user = {
+        id: 1,
+        name: 'User 1',
+        email: 'user1@example.com',
+        cpf: '12345678901231',
+        celular: '987654321',
+        knowledge: [{ id: '1', name: 'Knowledge 1' }],
+      };
+      userRepositoryMock.createQueryBuilder = jest.fn().mockReturnValue({
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        getOne: jest.fn().mockResolvedValue(user),
+      });
+
+      const result = await usersService.getUserByName('User 1');
+      expect(result).toEqual(user);
+    });
+
+    it('should throw an error if the user is not found', async () => {
+      userRepositoryMock.createQueryBuilder = jest.fn().mockReturnValue({
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        getOne: jest.fn().mockResolvedValue(null),
+      });
+
+      try {
+        await usersService.getUserByName('Nonexistent User');
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.status).toEqual(HttpStatus.NOT_FOUND);
+        expect(error.message).toEqual('User not found');
+      }
+    });
+  });
+
   describe('create', () => {
     it('should create a new user', async () => {
       const createUserDto: CreateUserDto = {
@@ -179,6 +218,37 @@ describe('UsersService', () => {
         expect(error).toBeInstanceOf(HttpException);
         expect(error.status).toEqual(HttpStatus.NOT_FOUND);
         expect(error.message).toEqual(`Course ID 1 not found`);
+      }
+    });
+  });
+
+  describe('validateUser', () => {
+    it('should update the user status and validation date', async () => {
+      const user = {
+        id: 1,
+        status: false,
+        dataValidacao: null,
+      };
+      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValueOnce(user);
+      jest.spyOn(userRepositoryMock, 'save').mockImplementation((user) => user);
+
+      const result = await usersService.validateUser('1', { status: true });
+      expect(result.status).toBe(true);
+      expect(result.dataValidacao).toBeDefined();
+    });
+
+    it('should throw an error if the user is not found', async () => {
+      userRepositoryMock.findOne.mockResolvedValue(null);
+      const updateUserDto = {
+        status: true,
+      };
+
+      try {
+        await usersService.validateUser('1', updateUserDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.status).toEqual(HttpStatus.NOT_FOUND);
+        expect(error.message).toEqual('Colaborador com ID 1 não encontrado.');
       }
     });
   });

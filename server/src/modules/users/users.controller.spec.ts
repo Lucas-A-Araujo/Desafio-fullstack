@@ -43,18 +43,13 @@ describe('UsersController', () => {
         cpf: '12345678901231',
         celular: '987654321',
         knowledge: ['Knowledge 1'],
-        // Provide necessary properties for createUserDto
       };
-      const createdUser = {}; // Provide a sample User object
+      const createdUser = {};
 
       usersService.create = jest.fn().mockReturnValue(createdUser);
 
       const result = await usersController.create(createUserDto);
       expect(result).toEqual(createdUser);
     });
-
-    // Add more test cases for edge cases and validation
   });
-
-  // Add tests for other methods in UsersController
 });
