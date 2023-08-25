@@ -118,6 +118,22 @@ describe('UsersService', () => {
       const result = await usersService.getUserByName('User 1');
       expect(result).toEqual(user);
     });
+
+    it('should throw an error if the user is not found', async () => {
+      userRepositoryMock.createQueryBuilder = jest.fn().mockReturnValue({
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        getOne: jest.fn().mockResolvedValue(null),
+      });
+
+      try {
+        await usersService.getUserByName('Nonexistent User');
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.status).toEqual(HttpStatus.NOT_FOUND);
+        expect(error.message).toEqual('User not found');
+      }
+    });
   });
 
   describe('create', () => {
