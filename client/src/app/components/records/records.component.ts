@@ -18,6 +18,7 @@ interface UserModel {
 })
 export class RecordsComponent implements OnInit {
   users: UserModel[] = [];
+  searchTerm: string = '';
 
   constructor(private recordsService: RecordsService, private router: Router) { }
 
@@ -26,6 +27,18 @@ export class RecordsComponent implements OnInit {
       this.users = data;
       this.sortUsersByName();
     });
+  }
+
+  get filteredUsers(): any[] {
+    if (!this.searchTerm) {
+      return this.users;
+    }
+
+    const lowerCaseSearch = this.searchTerm.toLowerCase();
+    return this.users.filter(user =>
+      user.name.toLowerCase().includes(lowerCaseSearch) ||
+      user.cpf.includes(this.searchTerm)
+    );
   }
 
   onUserCardClick(user: UserModel) {

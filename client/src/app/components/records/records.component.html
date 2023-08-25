@@ -1,6 +1,7 @@
 <div class="container">
+  <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar por nome ou CPF">
   <div class="list-container">
-  <div class="user-card" *ngFor="let user of users"  (click)="onUserCardClick(user)">
+  <div class="user-card" *ngFor="let user of filteredUsers"  (click)="onUserCardClick(user)">
     <div>
       <p>Name: {{ user.name }}</p>
       <p>Email: {{ user.email }}</p>
