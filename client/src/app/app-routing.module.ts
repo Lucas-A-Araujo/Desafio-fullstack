@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { ValidateComponent } from './components/validate/validate.component';
 import { RecordsComponent } from './components/records/records.component';
-//RecordsComponent
+
 const routes: Routes = [{
   path: ':nomeColaborador/registrar',
   component: RegisterComponent
