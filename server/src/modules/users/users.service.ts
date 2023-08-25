@@ -3,7 +3,6 @@ import {
   HttpStatus,
   Injectable,
   NotFoundException,
-  BadRequestException,
   ConflictException,
 } from '@nestjs/common';
 import { User } from './entities/user.entity';
@@ -11,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Knowledge } from './entities/knowledge.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -86,18 +86,14 @@ export class UsersService {
     return this.userRepository.remove(course);
   }
 
-  async validateUser(id: string): Promise<User> {
+  async validateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.userRepository.findOne(+id);
 
     if (!user) {
       throw new NotFoundException(`Colaborador com ID ${id} não encontrado.`);
-    } else if (user.status) {
-      throw new BadRequestException(
-        `Colaborador com ID ${id} já está validado.`,
-      );
     }
 
-    user.status = true;
+    user.status = updateUserDto.status;
     user.dataValidacao = new Date();
 
     return this.userRepository.save(user);

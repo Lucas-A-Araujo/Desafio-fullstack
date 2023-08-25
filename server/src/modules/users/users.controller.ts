@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -35,8 +36,8 @@ export class UsersController {
   }
 
   @Patch(':id/validar')
-  validateUser(@Param('id') id: string) {
-    return this.usersService.validateUser(id);
+  validateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.validateUser(id, updateUserDto);
   }
 
   @Delete(':id')
