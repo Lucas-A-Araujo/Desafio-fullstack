@@ -1,1 +1,16 @@
-<p>validate works!</p>
+<h2>Validação de Registro</h2>
+<div *ngIf="user">
+  <p><strong>Nome:</strong> {{ user.name }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>CPF:</strong> {{ user.cpf }}</p>
+  <p><strong>Celular:</strong> {{ user.celular }}</p>
+  <p><strong>Status:</strong> {{ user.status }}</p>
+  <ul>
+    <li *ngFor="let knowledge of user.knowledge">
+      {{ knowledge.name }}
+    </li>
+  </ul>
+
+  <button (click)="validateUser(true)">Validar</button>
+  <button (click)="validateUser(false)">Não Validar</button>
+</div>

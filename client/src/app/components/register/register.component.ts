@@ -15,31 +15,6 @@ interface CourseModel {
 })
 export class RegisterComponent {
 
-  /*checkoutForm = this.formBuilder.group({
-    name: '',
-    address: ''
-  });
-
-  constructor(
-    private formBuilder: FormBuilder,
-  ) {}
-  /*onSubmit(form: NgForm) {
-    if (form.valid) {
-      // Lógica para lidar com o envio do formulário
-      console.log(form.value);
-    }
-
-    onSubmit(): void {
-      // Process checkout data here
-      //this.items = this.cartService.clearCart();
-      console.warn('Your order has been submitted', this.checkoutForm.value);
-      this.checkoutForm.reset();
-    }*/
-
-    ///////////////
-
-
-
   courses: CourseModel[] = [
     { id: 1, name: 'Git' },
     { id: 2, name: 'React' },
