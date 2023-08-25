@@ -4,17 +4,8 @@
   <div class="user-card" *ngFor="let user of filteredUsers"  (click)="onUserCardClick(user)">
     <div>
       <p>Name: {{ user.name }}</p>
-      <p>Email: {{ user.email }}</p>
       <p>CPF: {{ user.cpf }}</p>
-      <p>Celular: {{ user.celular }}</p>
       <p>Status: {{ user.status ? 'Validado' : 'Não Validado' }}</p>
-      <p>Conhecimentos:</p>
-      <ul>
-        <li *ngFor="let knowledge of user.knowledge">
-          {{ knowledge.name }}
-        </li>
-      </ul>
-
     </div>
   </div>
 </div>
