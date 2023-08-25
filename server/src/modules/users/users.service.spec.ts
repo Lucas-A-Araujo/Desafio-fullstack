@@ -14,6 +14,7 @@ describe('UsersService', () => {
     create: jest.fn(),
     save: jest.fn(),
     remove: jest.fn(),
+    createQueryBuilder: jest.fn(),
   };
   const knowledgeRepositoryMock = {
     findOne: jest.fn(),
@@ -97,6 +98,28 @@ describe('UsersService', () => {
       }
     });
   });
+
+  describe('getUserByName', () => {
+    it('should return a user by name', async () => {
+      const user = {
+        id: 1,
+        name: 'User 1',
+        email: 'user1@example.com',
+        cpf: '12345678901231',
+        celular: '987654321',
+        knowledge: [{ id: '1', name: 'Knowledge 1' }],
+      };
+      userRepositoryMock.createQueryBuilder = jest.fn().mockReturnValue({
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+        getOne: jest.fn().mockResolvedValue(user),
+      });
+
+      const result = await usersService.getUserByName('User 1');
+      expect(result).toEqual(user);
+    });
+  });
+
   describe('create', () => {
     it('should create a new user', async () => {
       const createUserDto: CreateUserDto = {
