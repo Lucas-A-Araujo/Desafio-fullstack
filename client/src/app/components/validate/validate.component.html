@@ -12,9 +12,20 @@
     </li>
   </ul>
 
+
   <div class="buttons">
   <button class="validate-button" (click)="validateUser(true)">Validar</button>
   <button class="reject-button"(click)="validateUser(false)">Não Validar</button>
 </div>
 </div>
+<div class="user-not-found" *ngIf="!user">
+  <div class="no-user-card">
+    Opa! Ninguém com esse nome aqui.
+  </div>
+</div>
+<ng-template #noUserCard *ngIf="!user">
+  <div class="no-user-card">
+    Opa! Ninguém com esse nome aqui.
+  </div>
+</ng-template>
 </div>
