@@ -1,3 +1,4 @@
+<div class="container">
 <div class="user-details" *ngIf="user">
   <p><strong>Nome:</strong> {{ user.name }}</p>
   <p><strong>Email:</strong> {{ user.email }}</p>
@@ -14,5 +15,6 @@
   <div class="buttons">
   <button class="validate-button" (click)="validateUser(true)">Validar</button>
   <button class="reject-button"(click)="validateUser(false)">Não Validar</button>
+</div>
 </div>
 </div>
