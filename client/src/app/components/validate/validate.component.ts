@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ValidateService } from 'src/app/services/validate.service';
@@ -29,6 +30,18 @@ export class ValidateComponent implements OnInit {
 
   validateUser(valido: boolean) {
 
+this.validateService.changeUserStatus(this.user.id).subscribe((data: any) => {
+  alert('Usuário validado');
+},
+(error: HttpErrorResponse) => {
+  console.error('error', error)
+  if (error.status === 400) {
+    alert(error.error.message);
+  } else {
+    alert('Erro desconhecido:');
+  }
+}
+);
   }
 
 
@@ -48,8 +61,6 @@ export class ValidateComponent implements OnInit {
     const numericPhone = phoneNumber.replace(/\D/g, '');
 
     const phoneParts = numericPhone.match(/^(\d{2})(\d{4})(\d{4})$/);
-    console.log(numericPhone);
-    console.log(phoneParts);
     if (phoneParts) {
       return `(${phoneParts[1]}) ${phoneParts[2]}-${phoneParts[3]}`;
     } else {

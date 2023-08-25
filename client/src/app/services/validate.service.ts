@@ -12,4 +12,8 @@ export class ValidateService {
   getUserByName(name: string) {
     return this.http.get(`${this.apiUrl}/name/${name}`);
   }
+
+  changeUserStatus(id: string) {
+    return this.http.patch(`${this.apiUrl}/${id}/validar`, {});
+  }
 }
