@@ -2,7 +2,7 @@
 <form class="form-container" (submit)="onSubmit($event)">
   <div class="form-field-container">
     <label for="name">Nome:</label>
-    <input id="name" name="name" type="text" ngModel required>
+    <input id="name" name="name" type="text" ngModel required  maxlength="100">
   </div>
   <div class="form-field-container">
     <label for="email">Email:</label>
@@ -10,14 +10,14 @@
   </div>
   <div class="form-field-container">
     <label for="cpf">CPF:</label>
-    <input id="cpf" name="cpf" type="text" ngModel required mask="000.000.000-00">
+    <input id="cpf" name="cpf" type="text" ngModel required mask="000.000.000-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}">
   </div>
   <div class="form-field-container">
     <label for="phone">Telefone:</label>
-    <input id="phone" name="phone" type="text" ngModel mask="(00) 0000-0000">
+    <input id="phone" name="phone" type="text" ngModel mask="(00) 0000-0000" pattern="(\(\d{2}\)\s\d{4}-\d{4})">
   </div>
   <div>
-    <p class="form-field-label">Selecione até 3 items que você tem conhecimento</p>
+    <p class="form-field-label" [class.shake]="shouldShake">Selecione até 3 items que você tem conhecimento</p>
     <div class="course-selection-container">
       <div
         class="course-card"
@@ -31,7 +31,6 @@
         {{ course.name }}
       </div>
     </div>
-    <!-- [disabled]="!(selectedCourses.length >= 3) && !(selectedCourses.length >= 1)" -->
   </div>
   <button type="submit">Enviar</button>
 </form>

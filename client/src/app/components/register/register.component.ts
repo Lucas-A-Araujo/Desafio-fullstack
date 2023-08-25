@@ -14,6 +14,7 @@ interface CourseModel {
   providers: []
 })
 export class RegisterComponent {
+  shouldShake: boolean = false;
 
   courses: CourseModel[] = [
     { id: 1, name: 'Git' },
@@ -40,29 +41,21 @@ export class RegisterComponent {
     }
   }
 
-  handleSubmit(): void {
-    console.log('courses id:', this.selectedCourses);
-  }
-
-
-    //////////////////
-
-    items = [{
-      name: '',
-      price: '0'
-    }];
-
-  checkoutForm = this.formBuilder.group({
-    name: '',
-    address: ''
-  });
-
   constructor(
     private formBuilder: FormBuilder,
   ) {}
 
   onSubmit(event: Event): void {
     event.preventDefault();
-    console.log('Your order has been submitted');
+    if (this.selectedCourses.length === 0) {
+      console.log('Não');
+      this.shouldShake = true;
+      setTimeout(() => {
+        this.shouldShake = false;
+      }, 500);
+    }
+    else{
+      console.log('Enviado');
+    }
   }
 }
