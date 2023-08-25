@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RecordsService {
   private apiUrl = 'http://localhost:3000/users/all';
-  //private apiUrl = 'https://randomuser.me/api/?results=10';
 
   constructor(private http: HttpClient) {}
 
