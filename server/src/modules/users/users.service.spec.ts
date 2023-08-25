@@ -221,4 +221,35 @@ describe('UsersService', () => {
       }
     });
   });
+
+  describe('validateUser', () => {
+    it('should update the user status and validation date', async () => {
+      const user = {
+        id: 1,
+        status: false,
+        dataValidacao: null,
+      };
+      jest.spyOn(userRepositoryMock, 'findOne').mockResolvedValueOnce(user);
+      jest.spyOn(userRepositoryMock, 'save').mockImplementation((user) => user);
+
+      const result = await usersService.validateUser('1', { status: true });
+      expect(result.status).toBe(true);
+      expect(result.dataValidacao).toBeDefined();
+    });
+
+    it('should throw an error if the user is not found', async () => {
+      userRepositoryMock.findOne.mockResolvedValue(null);
+      const updateUserDto = {
+        status: true,
+      };
+
+      try {
+        await usersService.validateUser('1', updateUserDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+        expect(error.status).toEqual(HttpStatus.NOT_FOUND);
+        expect(error.message).toEqual('Colaborador com ID 1 não encontrado.');
+      }
+    });
+  });
 });
