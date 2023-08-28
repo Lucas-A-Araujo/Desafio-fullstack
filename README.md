@@ -16,7 +16,7 @@ Certifique-se de ter as seguintes ferramentas instaladas em seu ambiente de dese
 2. Se assegure que tem um banco de dados postgres rodando com username "postgres" e password "docker". <br />
 2.1 Como alternativa você pode navegar até o "server>src>app.module.ts" e configurar como desejar.
 
-3. Crie um banco de dados chamado "mesha" <br />
+3. Crie um banco de dados chamado "postgres" <br />
 3.1 Você também pode mudar o nome do banco em "server>src>app.module.ts".
 
 2. Navegue para o diretório do projeto no terminal.
